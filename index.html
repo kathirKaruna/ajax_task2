@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>User Sign In Page</title>
+	<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css">
+ 
+ <style>
+  	.container-fluid{
+  		margin:0;
+  		padding: 0;
+  	}
+  	span{
+  		color: red;
+  		font-size: 20px;
+  		font-weight: 600;
+  	}
+  </style>
+
+</head>
+<body>
+<div class="container-fluid ">
+	<div class="container">
+		<h1 class="text-center font-italic font-weight-bolder mt-5"><u>Is School</u></h1>
+       <div id="oldCard" class="text-center ml-auto mr-auto mt-5">
+		<div class="row mt-5">
+			<div class="col-12 text-center">
+				<div class="form-group">
+					<input type="text" id="userName" name="userName" placeholder="Username" class="form-control-lg"><br>
+					<span class="required" id="userNameErrId"></span>
+				</div>
+			</div>
+			<div class="col-12 text-center mt-2">
+				<div class="form-group">
+					<input type="password" id="pwd" name="pwd" placeholder="Password" class="form-control-lg"><br>
+					<span class="required" id="pwdErrId"></span>
+				</div>
+			</div>
+			<div class="col-12 text-center mt-3">
+				<div class="form-group">
+					<button type="button" class="btn btn-lg btn-primary" onclick="validateUser()">Login</button>
+				</div>
+			</div>
+		</div>
+	</div>
+		 <p class="text-center font-weight-bolder mt-4 signUpP">New User ? <a href="signUp.html" class="signUp"><u>Sign Up</u></a></p>		
+	</div>	
+</div>
+
+
+<script>
+function validateUser(){
+  var isErrorThere = false;
+
+   var userName = $('#userName').val();
+  	if(userName == null || userName == ""){
+  		$("#userNameErrId").html("UserName Is Required");
+  		isErrorThere = true;
+  	}else{
+  		$('#userNameErrId').html("");
+  	}
+
+  	var pwd = $('#pwd').val();
+  	if(pwd == null || pwd == ""){
+  		$("#pwdErrId").html("Password Is Required");
+  		isErrorThere = true;
+  	}else{
+  		$('#pwdErrId').html("");
+  	}
+
+  	  if(isErrorThere){
+               return false;
+            }else{
+            	submitUser();
+            }
+}
+
+function submitUser(){
+	var userName = $('#userName').val();
+	var pwd = $('#pwd').val();
+	$.ajax({
+		//https://5f99234950d84900163b8271.mockapi.io/api/users?username=am&password=asd123
+         url: 'https://5f99234950d84900163b8271.mockapi.io/api/users',
+         type: 'GET',
+         async: false,
+         dataType: "json", 
+         data: {username:userName,password:pwd },
+         contentType:'application/json',   
+         success: function (response) { 
+                 if(response.length == 1){
+                	// console.log(object.id);
+             	    window.location.replace("dashboard.html"); 
+                 }else{
+                 	alert("Invalid User Name Or Password");
+                  }                
+            }
+        }); 
+}
+
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Create</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css">
+ 
+ <style>
+    .container-fluid{
+      margin:0;
+      padding: 0;
+    }
+    span{
+      color: red;
+      font-size: 20px;
+      font-weight: 600;
+    }
+    label{
+      font-size:16px;
+      font-weight: 500;
+    }
+    .btn-lg{
+      font-weight: 500;
+    }
+    ul li{
+       list-style-type: none;
+        display: inline-block;
+        font-size: 20px;
+   }
+  </style>
+
+</head>
+<body>
+<div class="container-fluid ">
+  <div class="container">
+    <div class="row logoutrow">
+      <h1 class="text-left font-italic font-weight-bolder mt-4 ml-3"><u>Is School</u></h1>
+      <ul class="ml-auto mt-5 mr-5">
+        <li><a href="dashboard.html" class=" font-weight-bolder mt-5">Home /</a></li>
+        <li><a href="index.html" class="font-weight-bolder mt-5">Logout</a></li>      
+      </ul>
+    </div>
+  </div><hr>
+  <div class="container">
+    <h3 class="text-center"><u>Create Student</u></h3>
+    <div class="row mt-5 ml-3 mr-3">
+      <div class="col-3">
+        <div class="form-group">
+          <label for="rollNo">Roll No</label>
+          <input type="text" id="rollNo" name="rollNo" placeholder="Roll No" class="form-control">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+           <label for="fName">First Name</label>
+          <input type="text" id="fName" name="fName" placeholder="First Name" class="form-control">
+        </div>
+      </div>
+       <div class="col-3">
+        <div class="form-group">
+           <label for="lname">Last Name</label>
+          <input type="text" id="lname" name="lname" placeholder="Last Name" class="form-control">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+           <label for="uName">User Name</label>
+          <input type="text" id="uName" name="uName" placeholder="User Name" class="form-control">
+        </div>
+      </div>
+         <div class="col-3">
+        <div class="form-group">
+          <label for="pwd">Password</label>
+          <input type="password" id="pwd" name="pwd" placeholder="Password" class="form-control">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+           <label for="std">Standard</label>
+          <input type="text" id="std" name="std" placeholder="Standard" class="form-control">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+           <label for="gender">Gender</label>
+          <select class="form-control" id="gender">
+            <option value="">Choose</option>
+             <option value="Male">Male</option>
+              <option value="Female">Female</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+           <label for="dob">Date Of Birth</label>
+          <input type="date" id="dob" name="dob" placeholder="Date Of Birth" class="form-control">
+        </div>
+      </div>
+         <div class="col-3">
+        <div class="form-group">
+          <label for="faName">Father Name</label>
+          <input type="text" id="faName" name="faName" placeholder="Father Name" class="form-control">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+           <label for="pNo">Phone No</label>
+          <input type="number" id="phNo" name="phNo" placeholder="Phone No" class="form-control">
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 text-center">
+      <button type="button" class="btn-lg btn-primary" onclick="submitStudent()">Submit</button>
+    </div>
+
+  </div>  
+</div>
+
+
+
+<script>
+  var studentObj = {};
+function submitStudent(){
+  var stdObj = {
+        "rollNo":$("#rollNo").val(),
+        "firstName":$("#fName").val(),
+        "lastName":$("#lname").val(),
+        "userName":$("#uName").val(),
+        "password":$("#pwd").val(),
+        "standard":$("#std").val(),
+        "dateOfBirth":$("#dob").val(),
+        "fatherName":$("#faName").val(),
+        "phoneNo":$("#phNo").val(),
+        "gender":$("#gender").val()
+      };
+    if(studentObj.id){
+         stdObj.id = studentObj.id;
+          var jsonObj = JSON.stringify(stdObj);
+          $.ajax({
+             url: 'https://5f99234950d84900163b8271.mockapi.io/api/student/'+stdObj.id,
+             type: 'PUT',
+             async: false,
+             dataType: "json", 
+             data:  jsonObj,
+             contentType:'application/json',   
+             success: function (response) { 
+                     console.log(response);
+                      $('input[type="text"],input[type="number"],select,textarea').val("");
+                       alert("Student Updated successfully");
+                      window.location.replace("student.home.html");
+          }
+        }); 
+      }else{
+        var jsonObj = JSON.stringify(stdObj);
+           console.log(jsonObj);
+         $.ajax({
+             url: 'https://5f99234950d84900163b8271.mockapi.io/api/student',
+             type: 'POST',
+             async: false,
+             dataType: "json", 
+             data:  jsonObj,
+             contentType:'application/json',   
+             success: function (response) { 
+                     console.log(response);
+                      $('input[type="text"],input[type="number"],select,textarea').val("");
+                     alert("Student created successfully");
+                      window.location.replace("student.home.html");
+          }
+        }); 
+      }
+      
+  }
+
+$(document).ready(function(){
+  var url_string = (window.location.href).toLowerCase();
+  var url = new URL(url_string);
+  var id = url.searchParams.get("id");
+     $.ajax({
+       url: 'http://5f99234950d84900163b8271.mockapi.io/api/student/'+id,
+       type: 'GET',
+       async: false,
+       dataType: "json",     
+       success: function (response) {
+           studentObj = response;
+           console.log(studentObj);
+             $("#rollNo").val(studentObj.rollNo);
+            $("#fName").val(studentObj.firstName);
+            $("#lname").val(studentObj.lastName);
+            $("#uName").val(studentObj.userName);
+            $("#pwd").val(studentObj.password);
+            $("#std").val(studentObj.standard);
+            $("#dob").val(studentObj.dateOfBirth);
+            $("#faName").val(studentObj.fatherName);
+            $("#phNo").val(studentObj.phoneNo);
+            $("#gender").val(studentObj.gender);
+       }
+    
+     });
+  
+});
+
+</script>
+</body>
+</html>

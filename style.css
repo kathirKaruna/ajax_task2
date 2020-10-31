@@ -1,0 +1,23 @@
+*{
+	margin:0;
+	padding: 0;
+}
+#oldCard{
+	width:40%!important;
+	height: 45vh!important;
+	border-radius: 5px;
+	border:1px solid gray;
+	background-color: white;
+}
+.signUpP{
+   font-size:20px;
+}
+.signup{
+	color: blue;
+}
+input[type="text"]{
+	border-color: none!important;
+}
+.form-control{
+	max-width: 80%;
+}

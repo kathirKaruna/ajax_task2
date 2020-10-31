@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>User Sign Up Page</title>
+	<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css">
+ 
+ <style>
+  	.container-fluid{
+  		margin:0;
+  		padding: 0;
+  	}
+  </style>
+
+</head>
+<body>
+<div class="container-fluid ">
+	<div class="container">
+		<h1 class="text-center font-italic font-weight-bolder mt-5"><u>Is School</u></h1>
+       <div id="oldCard" class="text-center ml-auto mr-auto mt-5">
+		<div class="row mt-5">
+			<div class="col-12 text-center">
+				<div class="form-group">
+					<input type="text" id="newName" name="newName" placeholder="Username" class="form-control-lg">
+				</div>
+			</div>
+			<div class="col-12 text-center mt-2">
+				<div class="form-group">
+					<input type="password" id="newPwd" name="newPwd" placeholder="Password" class="form-control-lg">
+				</div>
+			</div>
+			<div class="col-12 text-center mt-3">
+				<div class="form-group">
+					<button type="button" class="btn btn-lg btn-primary" onclick="signUp()">Sign Up</button>
+				</div>
+			</div>
+		</div>
+	</div>
+		 <p class="text-center font-weight-bolder mt-4 signUpP">Already User ? <a href="index.html" class="signUp"><u>Login</u></a></p>
+		
+	</div>	
+</div>
+
+
+<script>
+  function signUp(){
+  	var obj = {
+  		"username":$("#newName").val(),
+  		"password":$("#newPwd").val()
+  	};
+
+  	var jsonObj = JSON.stringify(obj);
+  	console.log(jsonObj);
+  	 $.ajax({
+         url: 'https://5f99234950d84900163b8271.mockapi.io/api/users',
+         type: 'POST',
+         async: false,
+         dataType: "json", 
+         data:  jsonObj,
+         contentType:'application/json',   
+         success: function (response) { 
+                 console.log(response);
+                 alert("User created successfully");
+                  $('input[type="text"],input[type="number"],select,textarea').val("");
+                  window.location.replace("index.html");
+          }
+        }); 
+  }
+
+
+
+
+</script>
+
+
+
+</body>
+</html>

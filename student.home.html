@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Students Home</title>
+	<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="style.css">
+ 
+ <style>
+  	.container-fluid{
+  		margin:0;
+  		padding: 0;
+  	}
+   .logoutrow{
+   	 max-width: 90%;
+   }
+   a{
+   	font-size: 22px;
+   	font-weight: 600;
+   }
+  table{
+    max-width: 80%;
+    margin-left: 130px !important;
+  }
+   ul li{
+   	list-style-type: none;
+   	display: inline-block;
+   }
+  </style>
+
+</head>
+<body>
+<div class="container-fluid">
+	<div class="container">
+		<div class="row logoutrow">
+			<h1 class="text-left font-italic font-weight-bolder mt-4 ml-3"><u>Is School</u></h1>
+		   <ul class="ml-auto mt-5">
+				   <li><a href="dashboard.html" class=" font-weight-bolder mt-5">Home /</a></li>
+                   <li><a href="index.html" class="font-weight-bolder mt-5">Logout</a></li>     
+			</ul>
+		</div>
+	</div><hr>
+
+<div class="container">
+	 <div class="row">
+	 	<div class="col-6 ml-5 mt-5">
+	 	   <h3 class="ml-5"><u>Students List</u></h3>
+	 	</div>
+	 	 <div class="col-6 text-right ml-auto mr-5">
+           <a href="student.create.html"><button type="button" class="btn btn-primary mr-5 font-weight-bold">Create Student</button></a>
+        </div>
+	 </div>
+ 
+   <table class="table table-bordered text-dark text-center mt-3">
+      <thead>
+        <tr id="trId_head">
+          <th>S.No</th>
+          <th>Roll No</th>
+          <th>User Name</th>
+          <th>Standard</th>
+          <th>DOB</th>
+          <th>Update/Delete</th>
+        </tr>
+      </thead>
+       <tbody id="displayArea">
+       </tbody>
+    </table>
+ </div>
+	
+</div>
+
+
+<script>
+	var studentArray = [];
+$( document ).ready(function() {
+    $.ajax({
+       url: 'https://5f99234950d84900163b8271.mockapi.io/api/student',
+       type: 'GET',
+       async: false,
+       dataType: "json", 
+       data: "",     
+       success: function (response) {
+       $.each(response, function(i, object) { 
+           studentArray.push(object);
+         });
+       }
+    
+ });
+   addTable();
+});
+
+var sNo = 1;
+function addTable(){
+  $('#displayArea').empty();
+    for(i = 0; i < studentArray.length; i++){
+      var studentObj = studentArray[i];
+       $('#displayArea').append("<tr id='trId_"+sNo+"'><td>" + sNo + "</td><td>" + studentObj.rollNo + "</td><td>" + studentObj.userName + "</td><td>"+studentObj.standard + "</td><td>" + studentObj.dateOfBirth+ "</td><td><span class='editrow' style='cursor:pointer;'><a style='cursor:pointer;color:black' class='fa fa-edit' href='javascript:void(0);'     onclick ='editDetail(\""+studentObj.id+"\");' >Edit</a></span><span><a onclick='deleteRow(\""+studentObj.id+"\");' class='material-icons'style='font-size:30px;color:red;margin-left:30px;cursor:pointer;'>delete</a></span></td></tr>");
+         sNo++;
+    }  
+}  
+
+function editDetail(id){
+    window.location.href = "student.create.html?id="+id;
+}
+
+function deleteRow(id){
+  $.ajax({
+         url: 'https://5f99234950d84900163b8271.mockapi.io/api/student/'+id,
+         type: 'DELETE',
+         async: false,
+         dataType: "json", 
+         data:  "",
+         contentType:'application/json',   
+         success: function (response) {
+            $("#trId_"+id).remove(); 
+          }
+        });
+          //addTable();
+        // location.reload();
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Teachers Home</title>
+	<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="style.css">
+ 
+ <style>
+  	.container-fluid{
+  		margin:0;
+  		padding: 0;
+  	}
+   .logoutrow{
+   	 max-width: 90%;
+   }
+   a{
+   	font-size: 22px;
+   	font-weight: 600;
+   }
+  table{
+    max-width: 80%;
+    margin-left: 130px !important;
+  }
+    ul li{
+       list-style-type: none;
+        display: inline-block;
+        font-size: 20px;
+   }
+  </style>
+
+</head>
+<body>
+<div class="container-fluid">
+	<div class="container">
+		<div class="row logoutrow">
+			<h1 class="text-left font-italic font-weight-bolder mt-4 ml-3"><u>Is School</u></h1>
+		   <ul class="ml-auto mt-5 mr-5">
+         <li><a href="dashboard.html" class=" font-weight-bolder mt-5">Home /</a></li>
+        <li><a href="index.html" class="font-weight-bolder mt-5">Logout</a></li>       
+      </ul>
+		</div>
+	</div><hr>
+
+<div class="container">
+	 <div class="row">
+	 	<div class="col-6 ml-5 mt-5">
+	 	   <h3 class="ml-5"><u>Teachers List</u></h3>
+	 	</div>
+	 	 <div class="col-6 text-right ml-auto mr-5">
+           <a href="teachers.create.html"><button type="button" class="btn btn-primary mr-5 font-weight-bold">Create Teacher</button></a>
+        </div>
+	 </div>
+ 
+   <table class="table table-bordered text-dark text-center mt-3">
+      <thead>
+        <tr id="trId_head">
+          <th>S.No</th>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Education</th>
+          <th>Update/Delete</th>
+        </tr>
+      </thead>
+       <tbody id="displayArea">
+       </tbody>
+    </table>
+ </div>
+	
+</div>
+
+
+<script>
+	var teacherArray = [];
+$( document ).ready(function() {
+    $.ajax({
+       url: 'https://5f99234950d84900163b8271.mockapi.io/api/teachers',
+       type: 'GET',
+       async: false,
+       dataType: "json", 
+       data: "",     
+       success: function (response) {
+       $.each(response, function(i, object) { 
+           teacherArray.push(object);
+         });
+       }
+    
+ });
+   addTable();
+});
+
+var sNo = 1;
+function addTable(){
+  $('#displayArea').empty();
+    for(i = 0; i < teacherArray.length; i++){
+      var teachObj = teacherArray[i];
+       $('#displayArea').append("<tr id='trId_"+sNo+"'><td>" + sNo + "</td><td>" + teachObj.name + "</td><td>" + teachObj.age + "</td><td>"+teachObj.educationQualification + "</td><td><span class='editrow' style='cursor:pointer;'><a style='cursor:pointer;color:black' class='fa fa-edit' href='javascript:void(0);'     onclick ='editTeacher(\""+teachObj.id+"\");' >Edit</a></span><span><a onclick='deleteTeacher(\""+teachObj.id+"\");' class='material-icons'style='font-size:30px;color:red;margin-left:30px;cursor:pointer;'>delete</a></span></td></tr>");
+         sNo++;
+    }  
+}  
+
+function editTeacher(id){
+    window.location.href = "teachers.create.html?id="+id;
+}
+
+function deleteTeacher(id){
+  $.ajax({
+         url: 'https://5f99234950d84900163b8271.mockapi.io/api/teachers/'+id,
+         type: 'DELETE',
+         async: false,
+         dataType: "json", 
+         data:  "",
+         contentType:'application/json',   
+         success: function (response) {
+            $("#trId_"+id).remove(); 
+          }
+        });
+        // location.reload();
+}
+
+</script>
+
+</body>
+</html>

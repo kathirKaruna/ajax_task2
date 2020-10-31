@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Teachers Create</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css">
+ 
+ <style>
+    .container-fluid{
+      margin:0;
+      padding: 0;
+    }
+    span{
+      color: red;
+      font-size: 20px;
+      font-weight: 600;
+    }
+    label{
+      font-size:16px;
+      font-weight: 500;
+    }
+    .btn-lg{
+      font-weight: 500;
+    }
+    ul li{
+       list-style-type: none;
+        display: inline-block;
+        font-size: 20px;
+   }
+  </style>
+
+</head>
+<body>
+<div class="container-fluid ">
+  <div class="container">
+    <div class="row logoutrow">
+      <h1 class="text-left font-italic font-weight-bolder mt-4 ml-3"><u>Is School</u></h1>
+      <ul class="ml-auto mt-5 mr-5">
+        <li><a href="dashboard.html" class=" font-weight-bolder mt-5">Home /</a></li>
+        <li><a href="index.html" class="font-weight-bolder mt-5">Logout</a></li>      
+      </ul>
+    </div>
+  </div><hr>
+  <div class="container">
+    <h3 class="text-center"><u>Create Teacher</u></h3>
+    <div class="row mt-5 ml-3 mr-3">
+      <div class="col-3">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" placeholder="Name" class="form-control">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+           <label for="gender">Gender</label>
+          <select class="form-control" id="gender">
+            <option value="">Choose</option>
+             <option value="Male">Male</option>
+              <option value="Female">Female</option>
+          </select>
+        </div>
+      </div>
+       <div class="col-3">
+        <div class="form-group">
+           <label for="age">Age</label>
+          <input type="text" id="teacherAge" name="age" placeholder="Age" class="form-control">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+           <label for="yrsOfExp">Years Of Experience</label>
+          <input type="number" id="yrsOfExp" name="yrsOfExp" placeholder="Years Of Experience" class="form-control">
+        </div>
+      </div>
+         <div class="col-3">
+        <div class="form-group">
+          <label for="martialStatus">Martial Status</label>
+          <select class="form-control" id="martialStatus">
+            <option value="">Choose</option>
+             <option value="single">Single</option>
+              <option value="married">Married</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+           <label for="religion">Religion</label>
+          <input type="text" id="religion" name="religion" placeholder="Religion" class="form-control">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+           <label for="eduQualification">Education Qualification</label>
+             <input type="text" id="eduQualification" name="eduQualification" placeholder="Education Qualification" class="form-control">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+           <label for="typeOfSchool">Type Of School</label>
+          <input type="date" id="typeOfSchool" name="typeOfSchool" placeholder="Type Of School" class="form-control">
+        </div>
+      </div>
+         <div class="col-3">
+        <div class="form-group">
+          <label for="classBeingTaught">Class Being Taught</label>
+          <input type="text" id="classBeingTaught" name="classBeingTaught" placeholder="Class Being Taught" class="form-control">
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 text-center">
+      <button type="button" class="btn-lg btn-primary" onclick="submitTeacher()">Submit</button>
+    </div>
+
+  </div>  
+</div>
+
+<script>
+  //var age = ;
+  //var ageInt = parseInt(age);
+var teacherObj = {};
+function submitTeacher(){
+  var obj = {
+        "name":$("#name").val(),
+        "age":$("#teacherAge").val(),
+        "gender":$("#gender").val(),
+        "yearsOfExperience":$("#yrsOfExp").val(),
+        "maritalStatus":$("#martialStatus").val(),
+        "religion":$("#religion").val(),
+        "educationQualification":$("#eduQualification").val(),
+        "typeOfSchool":$("#typeOfSchool").val(),
+        "classBeingTaught":$("#classBeingTaught").val()
+      };
+    if(teacherObj.id){
+         obj.id = teacherObj.id;
+          var jsonObj = JSON.stringify(obj);
+          $.ajax({
+             url: 'https://5f99234950d84900163b8271.mockapi.io/api/teachers/'+obj.id,
+             type: 'PUT',
+             async: false,
+             dataType: "json", 
+             data:  jsonObj,
+             contentType:'application/json',   
+             success: function (response) {
+              console.log(response.age)
+                     alert("Teacher Updated successfully");
+                      $('input[type="text"],input[type="Number"],select').val("");
+                      window.location.replace("teachers.home.html");
+          }
+        }); 
+      }else{
+        var jsonObj = JSON.stringify(obj);
+           console.log(jsonObj);
+         $.ajax({
+             url: 'https://5f99234950d84900163b8271.mockapi.io/api/teachers/',
+             type: 'POST',
+             async: false,
+             dataType: "json", 
+             data:  jsonObj,
+             contentType:'application/json',   
+             success: function (response) { 
+                     console.log(response);
+                      $('input[type="text"],input[type="Number"],select').val("");
+                     alert("Teacher created successfully");
+                      window.location.replace("teachers.home.html");
+          }
+        }); 
+      }
+ }     
+  
+
+$(document).ready(function(){
+  var url_string = (window.location.href).toLowerCase();
+  var url = new URL(url_string);
+  var id = url.searchParams.get("id");
+     $.ajax({
+       url: 'http://5f99234950d84900163b8271.mockapi.io/api/teachers/'+id,
+       type: 'GET',
+       async: false,
+       dataType: "json",     
+       success: function (response) {
+           teacherObj = response;
+           console.log(teacherObj);
+            $("#name").val(teacherObj.name);
+            $("#teacherAge").val(teacherObj.age);
+            $("#gender").val(teacherObj.gender);
+            $("#yrsOfExp").val(teacherObj.yearsOfExperience);
+            $("#martialStatus").val(teacherObj.maritalStatus);
+            $("#religion").val(teacherObj.religion);
+            $("#eduQualification").val(teacherObj.educationQualification);
+            $("#typeOfSchool").val(teacherObj.typeOfSchool);
+            $("#classBeingTaught").val(teacherObj.classBeingTaught);
+       }
+    
+     });
+  
+});
+
+</script> 
+</body>
+</html>
